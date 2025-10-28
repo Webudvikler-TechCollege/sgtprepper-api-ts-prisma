@@ -1,6 +1,7 @@
 import { Request, RequestHandler, Response } from 'express';
 import { prisma } from '../prisma.js';
 import bcrypt from 'bcrypt';
+import { log } from 'console';
 
 export const getRecords = async (req: Request, res: Response) => {
   try {
@@ -30,7 +31,7 @@ export const getRecord = async (req: Request, res: Response) => {
         lastname: true,
         email: true,
         description: true,
-        image: true,
+        imageUrl: true,
         isActive: true
       }
     });
@@ -42,7 +43,9 @@ export const getRecord = async (req: Request, res: Response) => {
 };
 
 export const createRecord = async (req: Request, res: Response) => {
-  const { firstname, lastname, email, password, description, image, refreshToken, isActive } = req.body;
+  console.log(req.body);
+  
+  const { firstname, lastname, email, password, description, imageUrl, refreshToken, isActive } = req.body;
 
   if (!email || !password) {
     res.status(400).json({ error: 'Email and password are required' });
@@ -57,7 +60,7 @@ export const createRecord = async (req: Request, res: Response) => {
         email,
         password: hashedPassword,
         description,
-        image,
+        imageUrl,
         refreshToken,
         isActive: Boolean(isActive),
       },
@@ -71,7 +74,7 @@ export const createRecord = async (req: Request, res: Response) => {
 
 export const updateRecord = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { firstname, lastname, email, password, description, image, refreshToken, isActive } = req.body;
+  const { firstname, lastname, email, password, description, imageUrl, refreshToken, isActive } = req.body;
 
   try {
     const dataToUpdate: any = {
@@ -79,7 +82,7 @@ export const updateRecord = async (req: Request, res: Response) => {
       lastname,
       email,
       description,
-      image,
+      imageUrl,
       refreshToken,
       isActive: Boolean(isActive),
     };

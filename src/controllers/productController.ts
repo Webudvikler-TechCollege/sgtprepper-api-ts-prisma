@@ -6,6 +6,29 @@ export const getRecords = async (req: Request, res: Response) => {
   try {
     const data = await prisma.product.findMany({
       where: {
+        isActive: true
+      },
+      select: {
+        name: true,
+        slug: true,
+        price: true,
+        teaser: true,
+        imageUrl: true,
+        stock: true,
+      }
+    });
+    res.json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch products' });
+  }
+};
+
+export const getRecordsByCategory = async (req: Request, res: Response) => {
+  const { category } = req.params;
+  try {
+    const data = await prisma.product.findMany({
+      where: {
         isActive: true,
         category: { slug: { equals: category } },
       },
@@ -24,6 +47,7 @@ export const getRecords = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Failed to fetch products' });
   }
 };
+
 
 export const getRecord = async (req: Request, res: Response) => {
   const { slug } = req.params;

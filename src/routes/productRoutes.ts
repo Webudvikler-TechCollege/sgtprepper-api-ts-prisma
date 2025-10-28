@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import { getRecord, getRecords } from '../controllers/productController';
+import { getRecord, getRecords, getRecordsByCategory } from '../controllers/productController';
 
 const routes = Router();
-routes.get('/:category', getRecords);
+routes.get('/', getRecords);
+routes.get('/:category', getRecordsByCategory);
 routes.get('/:category/:slug', getRecord);
 
 export const productRoutes = routes;
