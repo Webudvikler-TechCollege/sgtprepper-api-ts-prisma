@@ -37,3 +37,7 @@ npm run dev
 ```bash
 npx prisma studio
 ```
+Nu skulle du gerne kunne se en oversigt over dine modeller og data i din browser:
+
+Eksempel:
+![Prisma Studio](./assets/images/prisma-studio.png)
