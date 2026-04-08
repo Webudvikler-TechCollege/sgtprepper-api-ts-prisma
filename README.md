@@ -37,7 +37,9 @@ npm run dev
 ```bash
 npx prisma studio
 ```
-Nu skulle du gerne kunne se en oversigt over dine modeller og data i din browser:
+Nu skulle du gerne kunne se en oversigt over dine modeller og data i din browser. Det er Prismas admin-panel til din database.
 
 Eksempel:
 ![Prisma Studio](./assets/images/prisma-studio.png)
+
+Klik på en af modellerne til venstre hvis du vil se og redigere data.
