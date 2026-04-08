@@ -24,7 +24,7 @@ git clone https://github.com/Webudvikler-TechCollege/sgtprepper-api-ts-prisma
 cd sgtprepper-api-ts-prisma
 npm install
 ```
-### 2. Opret .env-fil ud fra det vedlagte eksempel
+### 2. Kopier eller omdøb *.env.example* til *.env*
 
 ```bash
 cp .env.example .env
@@ -32,4 +32,8 @@ cp .env.example .env
 ### 3. Start serveren
 ```bash
 npm run dev
+```
+### 4. Få overblik over data
+```bash
+npx prisma studio
 ```
