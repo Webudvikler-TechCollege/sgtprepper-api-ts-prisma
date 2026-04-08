@@ -56,16 +56,17 @@ type ModelName = Exclude<keyof typeof prisma,
 const seedData = async (model: ModelName, data: any[]) => {
   try {
     const modelName = String(model);
-
     console.log(modelName);
 
+    const count = await (prisma[model] as any).count();
+    console.log(`${modelName} already has ${count} rows`);
 
     await (prisma[model] as any).createMany({
-      data,
-      skipDuplicates: true
+      data
     });
   } catch (error) {
     console.error(`Failed to seed ${String(model)}:`, error);
+    throw error;
   }
 }
 
@@ -74,28 +75,24 @@ const castRow = async (model: string, row: Record<string, any>) => {
   const converted: Record<string, any> = {}
 
   for (const [key, value] of Object.entries(row)) {
-    
+
     const type: FieldType = schema[key] || 'string'
     const val = value?.toString().trim()
 
     if (type === 'number') {
       converted[key] = Number(val)
     } else if (type === 'boolean') {
-      if(val === "0") {
-        converted[key] = false  
-      } else {
-        converted[key] = true
-      }
+      converted[key] = val === '1' || val?.toLowerCase() === 'true';
     } else if (type === 'date') {
-      converted[key] = new Date(val)
+    converted[key] = new Date(val)
+  } else {
+    if (key === 'password') {
+      converted[key] = await bcrypt.hash(val, 10);
     } else {
-      if (key === 'password') {
-        converted[key] = await bcrypt.hash(val, 10);
-      } else {
-        converted[key] = val
-      }
+      converted[key] = val
     }
   }
+}
 
-  return converted
+return converted
 }
